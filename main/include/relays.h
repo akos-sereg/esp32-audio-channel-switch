@@ -12,6 +12,6 @@
 #define LED_STRIP_CLOCK_GPIO	33
 
 extern void init_relays();
-extern void relays_refresh(int value);
+extern void relays_refresh();
 
 #endif
