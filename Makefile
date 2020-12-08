@@ -3,9 +3,7 @@
 # project subdirectory.
 #
 
-PROJECT_NAME := esp32-obd2
-
-COMPONENT_ADD_INCLUDEDIRS := components/include
+PROJECT_NAME := esp32-audio-channel-switch
 
 include $(IDF_PATH)/make/project.mk
 

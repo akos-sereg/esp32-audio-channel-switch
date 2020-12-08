@@ -1,6 +1,5 @@
-# esp32-audio-channel-switch
+# Hello World Example
 
-Input / Output channel switch.
+Starts a FreeRTOS task to print "Hello World"
 
-- Inputs: Guitar, Computer audio, Vinly
-- Outputs: headphones, speaker
+See the README.md file in the upper level 'examples' directory for more information about examples.
