@@ -11,7 +11,7 @@
 #define LED_STRIP_DATA_GPIO	25
 #define LED_STRIP_CLOCK_GPIO	33
 
-extern void engine_load_init();
-extern void led_strip_set(int value);
+extern void init_relays();
+extern void relays_refresh(int value);
 
 #endif

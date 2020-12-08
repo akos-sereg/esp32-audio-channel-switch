@@ -1,6 +1,6 @@
 #include "include/relays.h"
 
-void engine_load_init() {
+void init_relays() {
     // init shift register gpios
     gpio_set_direction(LED_STRIP_LATCH_GPIO, GPIO_MODE_OUTPUT);
     gpio_set_direction(LED_STRIP_CLOCK_GPIO, GPIO_MODE_OUTPUT);
@@ -13,7 +13,7 @@ void engine_load_init() {
 
 
 /* value from 0 to 9 */
-void led_strip_set(int value) {
+void relays_refresh(int value) {
 
     if (value < 0 || value > 9) {
         return;
