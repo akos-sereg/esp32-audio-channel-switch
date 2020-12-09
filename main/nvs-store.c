@@ -32,6 +32,8 @@ void set_nvs_value(char *key, int32_t value) {
         return;
     }
 
+    printf("[nvs] storing value %d for %s\n", value, key);
+
     nvs_error = nvs_set_i32(app_nvs_handle, key, value);
     printf((nvs_error != ESP_OK) ? "Failed to write into NVS store!\n" : "Done writing into NVS store\n");
 

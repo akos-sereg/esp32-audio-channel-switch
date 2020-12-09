@@ -8,8 +8,8 @@
 #include "freertos/task.h"
 #include "freertos/queue.h"
 
-#define SWITCH_IN_COMP  18
-#define SWITCH_IN_GUITAR  19
+#define SWITCH_IN_COMP  19
+#define SWITCH_IN_GUITAR  18
 #define SWITCH_IN_VINYL  5
 #define SWITCH_OUT_HEADPHONES  17
 #define SWITCH_OUT_SPEAKER  16

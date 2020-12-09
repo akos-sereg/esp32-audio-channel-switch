@@ -36,17 +36,17 @@ void relays_refresh() {
 
             // headphones (out)
             case 4:
-                gpio_set_level(LED_STRIP_DATA_GPIO, app_state.relay_out_headphones);
+                gpio_set_level(LED_STRIP_DATA_GPIO, app_state.is_muted ? 0 : app_state.relay_out_headphones);
                 break;
 
             // speaker (out)
             case 3:
-                gpio_set_level(LED_STRIP_DATA_GPIO, app_state.relay_out_speaker);
+                gpio_set_level(LED_STRIP_DATA_GPIO, app_state.is_muted ? 0 : app_state.relay_out_speaker);
                 break;
 
             // amplifier (out)
             case 2:
-                gpio_set_level(LED_STRIP_DATA_GPIO, app_state.relay_out_amplifier);
+                gpio_set_level(LED_STRIP_DATA_GPIO, app_state.is_muted ? 0 : app_state.relay_out_amplifier);
                 break;
 
             // dummy

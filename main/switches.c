@@ -1,6 +1,7 @@
 #include "include/switches.h"
 #include "include/state.h"
 #include "include/relays.h"
+#include "include/nvs-store.h"
 
 static xQueueHandle gpio_evt_queue = NULL;
 static void IRAM_ATTR gpio_isr_handler(void* arg)
@@ -14,54 +15,132 @@ void listen_switches(void* arg)
     uint32_t io_num;
     int current_state;
 
+    int in_comp_keypress = 0;
+    int in_guit_keypress = 0;
+    int in_viny_keypress = 0;
+    int out_headphones_keypress = 0;
+    int out_speaker_keypress = 0;
+    int out_amplifier_keypress = 0;
+    int is_muted_keypress = 0;
+
     for(;;) {
         if(xQueueReceive(gpio_evt_queue, &io_num, portMAX_DELAY)) {
             current_state = gpio_get_level(io_num);
 
-            if (io_num == SWITCH_IN_COMP && app_state.relay_in_comp != current_state) {
+            // ------------------------------------------------------------------------------
+            // Input channels
+            // ------------------------------------------------------------------------------
+            if (io_num == SWITCH_IN_COMP && in_comp_keypress != current_state) {
                 printf("GPIO[%d:comp] state changed: %d\n", io_num, current_state);
-                app_state.relay_in_comp = current_state;
-                relays_refresh();
+
+                // rising edge
+                if (current_state == 1) {
+                    state_set_input(NVS_VAL_IN_COMP);
+                    set_nvs_value(NVS_KEY_IN_CHANNEL, NVS_VAL_IN_COMP);
+                    relays_refresh();
+                    state_print();
+                }
+
+                in_comp_keypress = current_state;
             }
 
-            if (io_num == SWITCH_IN_GUITAR && app_state.relay_in_guitar != current_state) {
+            if (io_num == SWITCH_IN_GUITAR && in_guit_keypress != current_state) {
                 printf("GPIO[%d:guitar] state changed: %d\n", io_num, current_state);
-                app_state.relay_in_guitar = current_state;
-                relays_refresh();
+
+                // rising edge
+                if (current_state == 1) {
+                    state_set_input(NVS_VAL_IN_GUITAR);
+                    set_nvs_value(NVS_KEY_IN_CHANNEL, NVS_VAL_IN_GUITAR);
+                    relays_refresh();
+                    state_print();
+                }
+
+                in_guit_keypress = current_state;
             }
 
-            if (io_num == SWITCH_IN_VINYL && app_state.relay_in_vinyl != current_state) {
+            if (io_num == SWITCH_IN_VINYL && in_viny_keypress != current_state) {
                 printf("GPIO[%d:vinyl] state changed: %d\n", io_num, current_state);
-                app_state.relay_in_vinyl = current_state;
-                relays_refresh();
+
+                // rising edge
+                if (current_state == 1) {
+                    state_set_input(NVS_VAL_IN_VINYL);
+                    set_nvs_value(NVS_KEY_IN_CHANNEL, NVS_VAL_IN_VINYL);
+                    relays_refresh();
+                    state_print();
+                }
+
+                in_viny_keypress = current_state;
             }
 
-            if (io_num == SWITCH_OUT_HEADPHONES && app_state.relay_out_headphones != current_state) {
+            // ------------------------------------------------------------------------------
+            // Output channels
+            // ------------------------------------------------------------------------------
+
+            if (io_num == SWITCH_OUT_HEADPHONES && out_headphones_keypress != current_state) {
                 printf("GPIO[%d:headphones] state changed: %d\n", io_num, current_state);
-                app_state.relay_out_headphones = current_state;
-                relays_refresh();
+
+                // rising edge
+                if (current_state == 1) {
+                    state_set_output(NVS_VAL_OUT_HEADPHONES);
+                    set_nvs_value(NVS_KEY_OUT_CHANNEL, NVS_VAL_OUT_HEADPHONES);
+                    relays_refresh();
+                    state_print();
+                }
+
+                out_headphones_keypress = current_state;
             }
 
-            if (io_num == SWITCH_OUT_SPEAKER && app_state.relay_out_speaker != current_state) {
+            if (io_num == SWITCH_OUT_SPEAKER && out_speaker_keypress != current_state) {
                 printf("GPIO[%d:speaker] state changed: %d\n", io_num, current_state);
-                app_state.relay_out_speaker = current_state;
-                relays_refresh();
+
+                // rising edge
+                if (current_state == 1) {
+                    state_set_output(NVS_VAL_OUT_SPEAKER);
+                    set_nvs_value(NVS_KEY_OUT_CHANNEL, NVS_VAL_OUT_SPEAKER);
+                    relays_refresh();
+                    state_print();
+                }
+
+                out_speaker_keypress = current_state;
             }
 
-            if (io_num == SWITCH_OUT_AMPLIFIER && app_state.relay_out_amplifier != current_state) {
+            if (io_num == SWITCH_OUT_AMPLIFIER && out_amplifier_keypress != current_state) {
                 printf("GPIO[%d:amplifier] state changed: %d\n", io_num, current_state);
-                app_state.relay_out_amplifier = current_state;
-                relays_refresh();
+
+                // rising edge
+                if (current_state == 1) {
+                    state_set_output(NVS_VAL_OUT_AMPLIFIER);
+                    set_nvs_value(NVS_KEY_OUT_CHANNEL, NVS_VAL_OUT_AMPLIFIER);
+                    relays_refresh();
+                    state_print();
+                }
+
+                out_amplifier_keypress = current_state;
             }
 
-            if (io_num == GPIO_MUTE && app_state.mute != current_state) {
+            // ------------------------------------------------------------------------------
+            // Other buttons
+            // ------------------------------------------------------------------------------
+
+            if (io_num == GPIO_MUTE && is_muted_keypress != current_state) {
                 printf("GPIO[%d:mute] state changed: %d\n", io_num, current_state);
-                app_state.mute = current_state;
+
+                // rising edge
+                if (current_state == 1) {
+                    state_set_muted(app_state.is_muted == 1 ? 0 : 1);
+                    set_nvs_value(NVS_KEY_MUTED, app_state.is_muted);
+                    relays_refresh();
+                    state_print();
+                }
+
+                is_muted_keypress = current_state;
             }
 
+            // todo: read value on init
             if (io_num == GPIO_CHILDLOCK && app_state.child_lock != current_state) {
                 printf("GPIO[%d:childlock] state changed: %d\n", io_num, current_state);
                 app_state.child_lock = current_state;
+                state_print();
             }
         }
     }
