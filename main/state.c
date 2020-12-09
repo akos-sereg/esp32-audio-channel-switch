@@ -8,17 +8,9 @@ void state_set_input(int32_t in_channel) {
     app_state.relay_in_vinyl = 0;
 
     switch (in_channel) {
-        case 0:
-            app_state.relay_in_comp = 1;
-            break;
-
-        case 1:
-            app_state.relay_in_guitar = 1;
-            break;
-
-        case 2:
-            app_state.relay_in_vinyl = 1;
-            break;
+        case 0: app_state.relay_in_comp = 1; break;
+        case 1: app_state.relay_in_guitar = 1; break;
+        case 2: app_state.relay_in_vinyl = 1; break;
 
         default:
         case -1:
@@ -33,17 +25,9 @@ void state_set_output(int32_t out_channel) {
     app_state.relay_out_amplifier = 0;
 
     switch (out_channel) {
-        case 0:
-            app_state.relay_out_headphones = 1;
-            break;
-
-        case 1:
-            app_state.relay_out_speaker = 1;
-            break;
-
-        case 2:
-            app_state.relay_out_amplifier = 1;
-            break;
+        case 0: app_state.relay_out_headphones = 1; break;
+        case 1: app_state.relay_out_speaker = 1; break;
+        case 2: app_state.relay_out_amplifier = 1; break;
 
         default:
         case -1:
@@ -59,6 +43,15 @@ void state_set_muted(int32_t is_muted) {
     }
 
     app_state.is_muted = is_muted;
+}
+
+void state_set_child_lock(int32_t child_lock) {
+    if (child_lock == -1) {
+        app_state.child_lock = 0;
+        return;
+    }
+
+    app_state.child_lock = child_lock;
 }
 
 void state_print() {

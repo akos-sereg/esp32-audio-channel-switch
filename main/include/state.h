@@ -32,6 +32,8 @@ extern void state_set_output(int32_t out_channel);
 
 extern void state_set_muted(int32_t is_muted);
 
+extern void state_set_child_lock(int32_t child_lock);
+
 extern void state_print();
 
 #endif

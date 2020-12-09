@@ -136,7 +136,6 @@ void listen_switches(void* arg)
                 is_muted_keypress = current_state;
             }
 
-            // todo: read value on init
             if (io_num == GPIO_CHILDLOCK && app_state.child_lock != current_state) {
                 printf("GPIO[%d:childlock] state changed: %d\n", io_num, current_state);
                 app_state.child_lock = current_state;
