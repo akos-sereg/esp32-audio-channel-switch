@@ -34,11 +34,15 @@ void listen_switches(void* arg)
                 printf("GPIO[%d:comp] state changed: %d\n", io_num, current_state);
 
                 // rising edge
-                if (current_state == 1) {
+                if (current_state == 1 && !app_state.child_lock) {
                     state_set_input(NVS_VAL_IN_COMP);
                     set_nvs_value(NVS_KEY_IN_CHANNEL, NVS_VAL_IN_COMP);
                     relays_refresh();
                     state_print();
+                }
+
+                if (app_state.child_lock) {
+                    printf("Ignoring command as child lock is active");
                 }
 
                 in_comp_keypress = current_state;
@@ -48,11 +52,15 @@ void listen_switches(void* arg)
                 printf("GPIO[%d:guitar] state changed: %d\n", io_num, current_state);
 
                 // rising edge
-                if (current_state == 1) {
+                if (current_state == 1 && !app_state.child_lock) {
                     state_set_input(NVS_VAL_IN_GUITAR);
                     set_nvs_value(NVS_KEY_IN_CHANNEL, NVS_VAL_IN_GUITAR);
                     relays_refresh();
                     state_print();
+                }
+
+                if (app_state.child_lock) {
+                    printf("Ignoring command as child lock is active");
                 }
 
                 in_guit_keypress = current_state;
@@ -62,11 +70,15 @@ void listen_switches(void* arg)
                 printf("GPIO[%d:vinyl] state changed: %d\n", io_num, current_state);
 
                 // rising edge
-                if (current_state == 1) {
+                if (current_state == 1 && !app_state.child_lock) {
                     state_set_input(NVS_VAL_IN_VINYL);
                     set_nvs_value(NVS_KEY_IN_CHANNEL, NVS_VAL_IN_VINYL);
                     relays_refresh();
                     state_print();
+                }
+
+                if (app_state.child_lock) {
+                    printf("Ignoring command as child lock is active");
                 }
 
                 in_viny_keypress = current_state;
@@ -80,11 +92,15 @@ void listen_switches(void* arg)
                 printf("GPIO[%d:headphones] state changed: %d\n", io_num, current_state);
 
                 // rising edge
-                if (current_state == 1) {
+                if (current_state == 1 && !app_state.child_lock) {
                     state_set_output(NVS_VAL_OUT_HEADPHONES);
                     set_nvs_value(NVS_KEY_OUT_CHANNEL, NVS_VAL_OUT_HEADPHONES);
                     relays_refresh();
                     state_print();
+                }
+
+                if (app_state.child_lock) {
+                    printf("Ignoring command as child lock is active");
                 }
 
                 out_headphones_keypress = current_state;
@@ -94,11 +110,15 @@ void listen_switches(void* arg)
                 printf("GPIO[%d:speaker] state changed: %d\n", io_num, current_state);
 
                 // rising edge
-                if (current_state == 1) {
+                if (current_state == 1 && !app_state.child_lock) {
                     state_set_output(NVS_VAL_OUT_SPEAKER);
                     set_nvs_value(NVS_KEY_OUT_CHANNEL, NVS_VAL_OUT_SPEAKER);
                     relays_refresh();
                     state_print();
+                }
+
+                if (app_state.child_lock) {
+                    printf("Ignoring command as child lock is active");
                 }
 
                 out_speaker_keypress = current_state;
@@ -108,11 +128,15 @@ void listen_switches(void* arg)
                 printf("GPIO[%d:amplifier] state changed: %d\n", io_num, current_state);
 
                 // rising edge
-                if (current_state == 1) {
+                if (current_state == 1 && !app_state.child_lock) {
                     state_set_output(NVS_VAL_OUT_AMPLIFIER);
                     set_nvs_value(NVS_KEY_OUT_CHANNEL, NVS_VAL_OUT_AMPLIFIER);
                     relays_refresh();
                     state_print();
+                }
+
+                if (app_state.child_lock) {
+                    printf("Ignoring command as child lock is active");
                 }
 
                 out_amplifier_keypress = current_state;
@@ -126,11 +150,15 @@ void listen_switches(void* arg)
                 printf("GPIO[%d:mute] state changed: %d\n", io_num, current_state);
 
                 // rising edge
-                if (current_state == 1) {
+                if (current_state == 1 && !app_state.child_lock) {
                     state_set_muted(app_state.is_muted == 1 ? 0 : 1);
                     set_nvs_value(NVS_KEY_MUTED, app_state.is_muted);
                     relays_refresh();
                     state_print();
+                }
+
+                if (app_state.child_lock) {
+                    printf("Ignoring command as child lock is active");
                 }
 
                 is_muted_keypress = current_state;
