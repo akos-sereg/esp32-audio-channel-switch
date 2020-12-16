@@ -5,7 +5,7 @@ listening to music from vinyl disc, headphones, etc. So I always had hard time t
 cable jungle.
 
 Purpose of this project: This project is the "firmware" of a little electronic device that allows me to select one  
-input source (computer, vinly, guitar), and select one output source (amplifier, speakers, headset), without having to 
+input source (computer, vinly, guitar), and select one output target (amplifier, speakers, headset), without having to 
 plug any cable.  
 
 ## Build on Windows
