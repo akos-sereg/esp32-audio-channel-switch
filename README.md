@@ -6,7 +6,9 @@ cable jungle.
 
 Purpose of this project: This project is the "firmware" of a little electronic device that allows me to select one  
 input source (computer, vinly, guitar), and select one output target (amplifier, speakers, headset), without having to 
-plug any cable.  
+plug any cable.
+
+![switch](https://raw.githubusercontent.com/akos-sereg/esp32-audio-channel-switch/master/images/switch.jpg)
 
 ## Build on Windows
 
